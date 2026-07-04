@@ -1,0 +1,1935 @@
+/* ========================================
+   儿童英语趣味乐园 - 赛车主题样式 v2.0
+   为小朋友优化：更大、更鲜艳、更有趣！
+   ======================================== */
+
+/* ===== CSS 变量 ===== */
+:root {
+    --bg-primary: #0a0e27;
+    --bg-secondary: #111640;
+    --bg-card: #1a1f4e;
+    --bg-card-hover: #252b6b;
+    --accent-orange: #FF6B35;
+    --accent-orange-light: #FF8C5A;
+    --accent-cyan: #00D2FF;
+    --accent-green: #4CAF50;
+    --accent-red: #F44336;
+    --accent-purple: #9C27B0;
+    --accent-gold: #FFD700;
+    --accent-pink: #FF4081;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b8d8;
+    --text-muted: #6b7290;
+    --border-color: #2a2f5e;
+    --shadow: 0 6px 30px rgba(0, 0, 0, 0.4);
+    --shadow-glow: 0 0 25px rgba(255, 107, 53, 0.4);
+    --radius: 20px;
+    --radius-sm: 12px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== 全局重置 ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 18px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Comic Sans MS', 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', 'Noto Color Emoji', sans-serif;
+    background: var(--bg-primary);
+    background-image: 
+        radial-gradient(ellipse at 20% 50%, rgba(0, 210, 255, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(255, 107, 53, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(156, 39, 176, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 10% 90%, rgba(255, 64, 129, 0.06) 0%, transparent 40%),
+        radial-gradient(ellipse at 90% 70%, rgba(255, 215, 0, 0.05) 0%, transparent 40%);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.6;
+    position: relative;
+}
+
+/* 背景星星装饰 */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+        radial-gradient(2px 2px at 10% 15%, rgba(255,255,255,0.4), transparent),
+        radial-gradient(2px 2px at 25% 35%, rgba(255,255,255,0.3), transparent),
+        radial-gradient(1px 1px at 40% 10%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(2px 2px at 55% 25%, rgba(255,255,255,0.3), transparent),
+        radial-gradient(1px 1px at 70% 45%, rgba(255,255,255,0.4), transparent),
+        radial-gradient(2px 2px at 85% 15%, rgba(255,255,255,0.3), transparent),
+        radial-gradient(1px 1px at 15% 60%, rgba(255,255,255,0.4), transparent),
+        radial-gradient(2px 2px at 35% 75%, rgba(255,255,255,0.2), transparent),
+        radial-gradient(1px 1px at 60% 65%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(2px 2px at 75% 80%, rgba(255,255,255,0.3), transparent),
+        radial-gradient(1px 1px at 90% 55%, rgba(255,255,255,0.4), transparent),
+        radial-gradient(2px 2px at 50% 90%, rgba(255,255,255,0.2), transparent),
+        radial-gradient(1px 1px at 5% 85%, rgba(255,255,255,0.3), transparent),
+        radial-gradient(2px 2px at 20% 95%, rgba(255,255,255,0.2), transparent),
+        radial-gradient(1px 1px at 80% 5%, rgba(255,255,255,0.3), transparent);
+}
+
+/* ===== 按钮系统 ===== */
+.btn {
+    padding: 12px 26px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    background: var(--bg-card);
+    border: 3px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: var(--shadow);
+    border-color: var(--accent-cyan);
+}
+
+.btn:active {
+    transform: translateY(0) scale(0.97);
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.btn:hover::after {
+    opacity: 1;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--accent-orange), #FF3D00);
+    border-color: transparent;
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.5);
+    font-size: 1.1rem;
+    padding: 14px 30px;
+}
+
+.btn-primary:hover {
+    box-shadow: 0 8px 30px rgba(255, 107, 53, 0.7);
+    transform: translateY(-4px) scale(1.05);
+}
+
+.btn-secondary {
+    background: var(--bg-card);
+    border-color: var(--border-color);
+    color: var(--text-secondary);
+    font-size: 1rem;
+    padding: 12px 24px;
+}
+
+.btn-circle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    background: var(--bg-card);
+    border: 3px solid var(--border-color);
+}
+
+.btn-circle:hover {
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 20px rgba(0,210,255,0.3);
+}
+
+.btn-speaker {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    background: linear-gradient(135deg, var(--accent-cyan), #0088cc);
+    border: none;
+    box-shadow: 0 0 25px rgba(0, 210, 255, 0.4);
+    animation: speaker-pulse 2s infinite;
+}
+
+@keyframes speaker-pulse {
+    0%, 100% { box-shadow: 0 0 25px rgba(0, 210, 255, 0.4); }
+    50% { box-shadow: 0 0 40px rgba(0, 210, 255, 0.7); }
+}
+
+.btn-back {
+    background: transparent;
+    border: 2px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 8px 18px;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.btn-back:hover {
+    border-color: var(--accent-orange);
+    color: #fff;
+}
+
+.btn-small {
+    padding: 7px 16px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.btn-reset {
+    background: transparent;
+    border: 1px solid #3a3050;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    padding: 8px 18px;
+}
+
+.btn-learned {
+    width: 100%;
+    padding: 18px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    border-radius: var(--radius);
+    background: linear-gradient(135deg, var(--accent-green), #2E7D32);
+    border: none;
+    margin-top: 20px;
+    box-shadow: 0 6px 20px rgba(76,175,80,0.4);
+    animation: learned-glow 2s infinite;
+}
+
+@keyframes learned-glow {
+    0%, 100% { box-shadow: 0 6px 20px rgba(76,175,80,0.4); }
+    50% { box-shadow: 0 8px 35px rgba(76,175,80,0.7); }
+}
+
+.btn-learned-done {
+    background: var(--bg-card);
+    border: 3px solid var(--accent-green);
+    color: var(--accent-green);
+    cursor: default;
+    animation: none;
+    box-shadow: none;
+}
+
+.btn-start-race {
+    padding: 22px 50px;
+    font-size: 1.5rem;
+    font-weight: 800;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #FF6B35, #FF3D00);
+    border: 4px solid rgba(255,255,255,0.2);
+    box-shadow: 0 0 40px rgba(255, 107, 53, 0.6);
+    animation: pulse-glow 1.5s infinite;
+    margin-top: 24px;
+    letter-spacing: 2px;
+}
+
+/* ===== 返回导航 ===== */
+.back-nav {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 24px;
+    background: var(--bg-secondary);
+    border-bottom: 2px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+}
+
+.back-title {
+    font-weight: 700;
+    color: var(--accent-orange);
+    font-size: 1rem;
+}
+
+/* ===== 主页大厅 ===== */
+.home-screen {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 24px;
+    position: relative;
+    z-index: 1;
+}
+
+/* 顶部横幅 */
+.home-banner {
+    text-align: center;
+    padding: 40px 24px 28px;
+    background: linear-gradient(180deg, rgba(255, 107, 53, 0.12), rgba(255, 215, 0, 0.06), transparent);
+    border-radius: var(--radius);
+    margin-bottom: 28px;
+    border: 2px solid rgba(255, 107, 53, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+.home-banner::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at center, rgba(255,215,0,0.08) 0%, transparent 60%);
+    animation: banner-shine 4s ease-in-out infinite;
+}
+
+@keyframes banner-shine {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    50% { transform: translate(2%, 2%) rotate(1deg); }
+}
+
+.banner-car {
+    font-size: 6rem;
+    animation: car-bounce 2s ease-in-out infinite;
+    filter: drop-shadow(0 8px 20px rgba(255,165,0,0.5));
+    position: relative;
+    z-index: 1;
+}
+
+.banner-title {
+    font-size: 2.4rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #FF6B35, #FFD700, #FF4081, #00D2FF);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 14px 0 8px;
+    animation: rainbow-shift 3s ease-in-out infinite;
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes rainbow-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.banner-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.15rem;
+    position: relative;
+    z-index: 1;
+}
+
+.banner-car-info {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--bg-card);
+    padding: 10px 24px;
+    border-radius: 50px;
+    margin-top: 16px;
+    border: 2px solid rgba(255,215,0,0.3);
+    font-size: 1.1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.car-level {
+    background: var(--accent-gold);
+    color: #000;
+    padding: 3px 14px;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: 0.85rem;
+}
+
+/* 统计面板 */
+.stats-panel {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 28px;
+}
+
+.stats-panel .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--bg-card);
+    padding: 18px 10px;
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--border-color);
+    transition: var(--transition);
+}
+
+.stats-panel .stat-item:hover {
+    border-color: var(--accent-gold);
+    box-shadow: 0 4px 20px rgba(255,215,0,0.15);
+    transform: translateY(-2px);
+}
+
+.stat-icon { font-size: 1.8rem; margin-bottom: 6px; }
+.stat-val { font-size: 1.5rem; font-weight: 800; color: var(--accent-gold); }
+.stat-lbl { font-size: 0.8rem; color: var(--text-muted); margin-top: 3px; }
+
+/* 赛车进化之路 */
+.car-evolution-bar {
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 28px;
+}
+
+.evolution-title {
+    font-weight: 800;
+    margin-bottom: 16px;
+    font-size: 1.15rem;
+}
+
+.evolution-track {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+
+.evolution-node {
+    flex: 0 0 90px;
+    text-align: center;
+    padding: 12px 6px;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.03);
+    border: 2px solid var(--border-color);
+    opacity: 0.4;
+    transition: var(--transition);
+}
+
+.evolution-node.unlocked {
+    opacity: 1;
+    border-color: var(--accent-gold);
+    background: rgba(255, 215, 0, 0.08);
+    box-shadow: 0 0 15px rgba(255,215,0,0.1);
+}
+
+.evolution-emoji { font-size: 2.5rem; }
+.evolution-name { font-size: 0.7rem; color: var(--text-secondary); margin-top: 5px; }
+.evolution-requirement { font-size: 0.65rem; color: var(--text-muted); }
+
+.evolution-progress {
+    text-align: center;
+    margin-top: 16px;
+    padding: 12px;
+    background: rgba(255, 215, 0, 0.08);
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    color: var(--accent-gold);
+    font-weight: 600;
+}
+.evolution-progress strong { font-size: 1.3rem; margin: 0 6px; }
+
+/* 游戏入口卡片 */
+.game-entries { margin-bottom: 28px; }
+.entries-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    text-align: center;
+    background: linear-gradient(135deg, var(--accent-orange), var(--accent-gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.entries-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.entry-card {
+    background: var(--bg-card);
+    border: 3px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 28px 18px;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.entry-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+    background: linear-gradient(135deg, transparent, rgba(255,255,255,0.03));
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+
+.entry-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 12px 40px rgba(255, 107, 53, 0.3);
+}
+
+.entry-card:hover::before {
+    opacity: 1;
+}
+
+.entry-icon { font-size: 3.5rem; margin-bottom: 12px; transition: transform 0.3s; }
+.entry-card:hover .entry-icon {
+    transform: scale(1.2) rotate(-5deg);
+}
+.entry-name { font-weight: 800; font-size: 1.1rem; margin-bottom: 6px; }
+.entry-desc { font-size: 0.8rem; color: var(--text-muted); }
+
+.entry-garage { border-left: 5px solid var(--accent-cyan); }
+.entry-garage:hover { border-color: var(--accent-cyan); box-shadow: 0 12px 40px rgba(0,210,255,0.3); }
+.entry-racing { border-left: 5px solid var(--accent-orange); }
+.entry-racing:hover { border-color: var(--accent-orange); box-shadow: 0 12px 40px rgba(255,107,53,0.3); }
+.entry-matching { border-left: 5px solid var(--accent-green); }
+.entry-matching:hover { border-color: var(--accent-green); box-shadow: 0 12px 40px rgba(76,175,80,0.3); }
+.entry-workshop { border-left: 5px solid var(--accent-purple); }
+.entry-workshop:hover { border-color: var(--accent-purple); box-shadow: 0 12px 40px rgba(156,39,176,0.3); }
+.entry-grandprix { border-left: 5px solid var(--accent-gold); }
+.entry-grandprix:hover { border-color: var(--accent-gold); box-shadow: 0 12px 40px rgba(255,215,0,0.3); }
+.entry-honor { border-left: 5px solid var(--accent-pink); }
+.entry-honor:hover { border-color: var(--accent-pink); box-shadow: 0 12px 40px rgba(255,64,129,0.3); }
+
+/* 底部 */
+.home-footer {
+    text-align: center;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+.footer-text { font-size: 0.8rem; color: var(--text-muted); }
+
+/* ===== 赛车车库（闪卡学习） ===== */
+.game-garage {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px;
+    position: relative;
+    z-index: 1;
+}
+
+.garage-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+.garage-header h2 { font-size: 2rem; font-weight: 800; margin-bottom: 6px; }
+.garage-subtitle { color: var(--text-secondary); font-size: 1rem; }
+
+.category-selector {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 12px;
+    margin-bottom: 28px;
+}
+
+.category-card {
+    background: var(--bg-card);
+    border: 3px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 16px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.category-card:hover {
+    border-color: var(--accent-cyan);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,210,255,0.2);
+}
+
+.category-card.active {
+    border-color: var(--accent-orange);
+    background: rgba(255, 107, 53, 0.12);
+    box-shadow: 0 0 20px rgba(255,107,53,0.2);
+}
+
+.category-icon { font-size: 2.8rem; margin-bottom: 6px; }
+.category-name { font-weight: 700; font-size: 1rem; }
+.category-type { font-size: 0.85rem; color: var(--text-muted); }
+
+.category-progress {
+    margin-top: 8px;
+}
+
+.progress-bar {
+    height: 6px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 4px;
+}
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-cyan), var(--accent-orange), var(--accent-gold));
+    background-size: 200% 100%;
+    border-radius: 3px;
+    transition: width 0.5s ease;
+    animation: progress-shimmer 2s infinite;
+}
+
+@keyframes progress-shimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.progress-text {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+/* 闪卡 -- 大幅放大 */
+.flashcard-area {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.flashcard {
+    perspective: 1000px;
+    width: 360px;
+    height: 260px;
+    margin: 0 auto 20px;
+    cursor: pointer;
+    filter: drop-shadow(0 8px 30px rgba(0,0,0,0.4));
+}
+
+.flashcard-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+}
+
+.flashcard.flipped .flashcard-inner {
+    transform: rotateY(180deg);
+}
+
+.flashcard-front, .flashcard-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--border-color);
+}
+
+.flashcard-front {
+    background: linear-gradient(135deg, #1a1f4e, #252b6b);
+}
+
+.flashcard-back {
+    background: linear-gradient(135deg, #252b6b, #1a1f4e);
+    transform: rotateY(180deg);
+}
+
+.flashcard-emoji { font-size: 5rem; margin-bottom: 12px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3)); }
+.flashcard-word { font-size: 2.8rem; font-weight: 800; color: var(--accent-cyan); text-shadow: 0 0 20px rgba(0,210,255,0.3); }
+.flashcard-zh { font-size: 2.8rem; font-weight: 800; color: var(--accent-orange); text-shadow: 0 0 20px rgba(255,107,53,0.3); }
+.flashcard-en-small { font-size: 1.4rem; color: var(--text-secondary); margin-top: 6px; }
+.flashcard-hint { font-size: 0.85rem; color: var(--text-muted); margin-top: 10px; }
+
+.flashcard:hover .flashcard-hint {
+    color: var(--accent-gold);
+    animation: hint-bounce 0.6s ease;
+}
+
+@keyframes hint-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+}
+
+.flashcard-info {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    margin-bottom: 14px;
+    font-size: 0.95rem;
+}
+.word-counter { color: var(--text-muted); }
+.word-category { color: var(--accent-cyan); font-weight: 600; }
+.word-learned { color: var(--text-muted); }
+.word-learned.learned { color: var(--accent-green); font-weight: 700; }
+
+.flashcard-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+/* ===== 赛道闯关 ===== */
+.game-racing {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 24px;
+    position: relative;
+    z-index: 1;
+}
+
+.racing-header, .grandprix-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+.racing-header h2, .grandprix-header h2 { font-size: 2rem; font-weight: 800; }
+.racing-subtitle, .grandprix-subtitle { color: var(--text-secondary); font-size: 1rem; }
+
+.terrain-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.terrain-card {
+    background: var(--bg-card);
+    border: 3px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 22px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.terrain-card:hover {
+    transform: translateY(-5px) scale(1.03);
+    border-color: var(--accent-orange);
+    box-shadow: 0 12px 35px rgba(255,107,53,0.25);
+}
+
+.terrain-emoji { font-size: 3.5rem; margin-bottom: 10px; }
+.terrain-name { font-weight: 700; font-size: 1.1rem; }
+.terrain-cat { font-size: 0.9rem; color: var(--text-muted); }
+.terrain-desc { font-size: 0.8rem; color: var(--text-muted); margin-top: 6px; }
+.terrain-action {
+    margin-top: 14px;
+    background: linear-gradient(135deg, var(--accent-orange), #FF3D00);
+    padding: 8px 22px;
+    border-radius: 25px;
+    display: inline-block;
+    font-weight: 700;
+    font-size: 1rem;
+    box-shadow: 0 4px 15px rgba(255,107,53,0.4);
+}
+
+/* 赛道进度条 */
+.race-progress-bar {
+    margin-bottom: 24px;
+}
+
+.race-track {
+    position: relative;
+    height: 16px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 8px;
+    overflow: visible;
+    margin-bottom: 10px;
+    border: 1px solid var(--border-color);
+}
+
+.race-track-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-cyan), var(--accent-orange), var(--accent-gold));
+    background-size: 200% 100%;
+    border-radius: 8px;
+    transition: width 0.5s ease;
+    animation: track-shimmer 3s infinite;
+}
+
+@keyframes track-shimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.race-car {
+    position: absolute;
+    top: -20px;
+    font-size: 2rem;
+    transform: translateX(-50%);
+    transition: left 0.5s ease;
+    filter: drop-shadow(0 0 10px rgba(255,165,0,0.7));
+}
+
+.race-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+/* 题目区域 */
+.race-question-area {
+    text-align: center;
+}
+
+.race-type-badge, .grandprix-type {
+    display: inline-block;
+    background: var(--bg-card);
+    padding: 6px 20px;
+    border-radius: 25px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 18px;
+    border: 2px solid var(--border-color);
+}
+
+.race-prompt, .grandprix-prompt {
+    margin-bottom: 22px;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-listen {
+    padding: 18px 36px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent-cyan), #0088cc);
+    border: none;
+    border-radius: 50px;
+    box-shadow: 0 0 25px rgba(0,210,255,0.4);
+    animation: speaker-pulse 2s infinite;
+}
+
+.race-emoji-big { font-size: 5.5rem; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4)); }
+
+.race-options, .grandprix-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    max-width: 560px;
+    margin: 0 auto;
+}
+
+.race-option, .grandprix-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 20px;
+    background: var(--bg-card);
+    border: 3px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: left;
+    font-family: inherit;
+}
+.race-option:hover, .grandprix-option:hover {
+    border-color: var(--accent-cyan);
+    background: var(--bg-card-hover);
+    transform: scale(1.03);
+    box-shadow: 0 4px 20px rgba(0,210,255,0.2);
+}
+.race-option.correct, .grandprix-option.correct {
+    border-color: var(--accent-green) !important;
+    background: rgba(76, 175, 80, 0.25) !important;
+    box-shadow: 0 0 25px rgba(76,175,80,0.3);
+}
+.race-option.wrong {
+    border-color: var(--accent-red) !important;
+    background: rgba(244, 67, 54, 0.25) !important;
+    box-shadow: 0 0 20px rgba(244,67,54,0.3);
+}
+
+.option-letter, .option-mark {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+/* 反馈区 */
+.race-feedback, .grandprix-feedback-area {
+    margin-top: 20px;
+    min-height: 56px;
+}
+
+.feedback-content, .grandprix-feedback {
+    padding: 14px 20px;
+    border-radius: var(--radius-sm);
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    animation: feedback-pop 0.4s ease;
+}
+
+@keyframes feedback-pop {
+    0% { transform: scale(0.8); opacity: 0; }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.feedback-correct, .grandprix-feedback.correct {
+    background: rgba(76, 175, 80, 0.2);
+    color: var(--accent-green);
+    border: 2px solid rgba(76,175,80,0.3);
+}
+
+.feedback-wrong, .grandprix-feedback.wrong {
+    background: rgba(244, 67, 54, 0.2);
+    color: var(--accent-red);
+    border: 2px solid rgba(244,67,54,0.3);
+}
+
+.feedback-icon { font-size: 1.5rem; }
+
+/* 完成页 */
+.race-finish, .workshop-finish, .matching-finish, .grandprix-finish {
+    text-align: center;
+    padding: 40px 24px;
+}
+
+.finish-flag, .finish-emoji { font-size: 5rem; margin-bottom: 16px; animation: car-bounce 1.5s infinite; }
+
+.score-circle {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 5px solid var(--accent-gold);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto;
+    background: rgba(255, 215, 0, 0.08);
+    box-shadow: 0 0 30px rgba(255,215,0,0.2);
+}
+
+.score-value { font-size: 2.6rem; font-weight: 800; color: var(--accent-gold); }
+.score-total { font-size: 1rem; color: var(--text-muted); }
+
+.finish-stars {
+    margin: 16px 0;
+    font-size: 2.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+
+.star {
+    opacity: 0.2;
+    filter: grayscale(1);
+    transition: var(--transition);
+}
+.star.earned {
+    opacity: 1;
+    filter: none;
+    animation: star-pop 0.5s ease;
+}
+
+.finish-msg {
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.finish-score {
+    margin: 8px 0;
+}
+
+.finish-actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+/* ===== 零件配对（记忆翻牌） ===== */
+.game-matching {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 24px;
+    position: relative;
+    z-index: 1;
+}
+
+.matching-header, .workshop-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.matching-header h2, .workshop-header h2 { font-size: 2rem; font-weight: 800; }
+.matching-subtitle, .workshop-subtitle { color: var(--text-secondary); font-size: 1rem; }
+
+.matching-stats {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.matching-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+.matching-card {
+    aspect-ratio: 1;
+    perspective: 600px;
+    cursor: pointer;
+}
+
+.matching-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+}
+
+.matching-card.flipped .matching-card-inner {
+    transform: rotateY(180deg);
+}
+
+.matching-card-back, .matching-card-front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    border: 3px solid var(--border-color);
+}
+
+.matching-card-back {
+    background: linear-gradient(135deg, #1a1f4e, #2a2f5e);
+    transition: border-color 0.3s;
+}
+.matching-card:hover .matching-card-back {
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 15px rgba(0,210,255,0.3);
+}
+
+.matching-card-front {
+    background: linear-gradient(135deg, var(--accent-cyan), #0088cc);
+    transform: rotateY(180deg);
+    font-size: 1.1rem;
+    font-weight: 700;
+    word-break: break-all;
+    padding: 8px;
+    text-align: center;
+    color: #fff;
+}
+
+.matching-card.matched .matching-card-front {
+    background: linear-gradient(135deg, var(--accent-green), #2E7D32);
+    border-color: var(--accent-green);
+    box-shadow: 0 0 20px rgba(76,175,80,0.4);
+    animation: matched-glow 1s ease;
+}
+
+@keyframes matched-glow {
+    0%, 100% { box-shadow: 0 0 10px rgba(76,175,80,0.2); }
+    50% { box-shadow: 0 0 30px rgba(76,175,80,0.5); }
+}
+
+.matching-categories, .workshop-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+}
+
+.matching-cat-card, .workshop-cat-card {
+    background: var(--bg-card);
+    border: 3px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 20px 14px;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+.matching-cat-card:hover, .workshop-cat-card:hover {
+    border-color: var(--accent-green);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(76,175,80,0.2);
+}
+.matching-cat-emoji, .workshop-cat-emoji { font-size: 2.5rem; margin-bottom: 6px; }
+.matching-cat-name, .workshop-cat-name { font-weight: 700; font-size: 1rem; }
+.matching-cat-count, .workshop-cat-count { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+
+.finish-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 20px 0;
+}
+.stat-item { text-align: center; }
+.stat-value { font-size: 1.8rem; font-weight: 800; color: var(--accent-gold); }
+.stat-label { font-size: 0.9rem; color: var(--text-muted); }
+
+/* ===== 改装车间（拼写） ===== */
+.game-workshop {
+    max-width: 650px;
+    margin: 0 auto;
+    padding: 24px;
+    position: relative;
+    z-index: 1;
+}
+
+.workshop-progress {
+    margin-bottom: 24px;
+}
+.workshop-progress-bar {
+    height: 16px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 8px;
+    overflow: visible;
+    position: relative;
+    margin-bottom: 10px;
+    border: 1px solid var(--border-color);
+}
+.workshop-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-purple), #E040FB, var(--accent-pink));
+    background-size: 200% 100%;
+    border-radius: 8px;
+    transition: width 0.4s ease;
+    text-align: right;
+    padding-right: 6px;
+    min-width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: 0.9rem;
+    animation: progress-shimmer 3s infinite;
+}
+.workshop-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.workshop-question { text-align: center; }
+
+.workshop-prompt {
+    margin-bottom: 24px;
+}
+.workshop-emoji { font-size: 5.5rem; margin-bottom: 12px; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4)); }
+.workshop-hint { font-size: 1.3rem; color: var(--text-secondary); font-weight: 600; }
+
+.workshop-letter-input {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.letter-slot {
+    width: 56px;
+    height: 68px;
+    border: 3px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: var(--bg-card);
+    color: var(--accent-cyan);
+    transition: var(--transition);
+    text-shadow: 0 0 10px rgba(0,210,255,0.3);
+}
+
+.letter-slot.filled {
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+    animation: slot-fill 0.3s ease;
+}
+
+@keyframes slot-fill {
+    0% { transform: scale(0.6); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.workshop-keyboard {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    max-width: 500px;
+    margin: 0 auto 20px;
+}
+
+.keyboard-key {
+    aspect-ratio: 1;
+    background: var(--bg-card);
+    border: 3px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: var(--transition);
+    text-transform: uppercase;
+    font-family: inherit;
+}
+.keyboard-key:hover {
+    background: var(--accent-purple);
+    border-color: var(--accent-purple);
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(156,39,176,0.5);
+}
+.keyboard-key:active { transform: scale(0.9); }
+
+.workshop-actions {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+}
+.btn-delete {
+    background: var(--accent-red);
+    border: none;
+    padding: 14px 28px;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+.btn-submit {
+    background: var(--accent-green);
+    border: none;
+    padding: 14px 28px;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+.btn-listen-small {
+    background: var(--accent-cyan);
+    border: none;
+    padding: 14px 18px;
+    font-size: 1.2rem;
+}
+
+.workshop-feedback-area { margin-top: 18px; }
+.workshop-feedback {
+    padding: 14px;
+    border-radius: var(--radius-sm);
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+.workshop-feedback.correct {
+    background: rgba(76, 175, 80, 0.2);
+    color: var(--accent-green);
+    border: 2px solid rgba(76,175,80,0.3);
+}
+.workshop-feedback.wrong {
+    background: rgba(244, 67, 54, 0.2);
+    color: var(--accent-red);
+    border: 2px solid rgba(244,67,54,0.3);
+}
+.correct-word { font-size: 1.5rem; font-weight: 800; margin: 0 8px; }
+.zh-hint { color: var(--text-secondary); font-size: 1rem; }
+.car-upgrade-anim { margin-top: 8px; font-size: 0.95rem; color: var(--accent-gold); font-weight: 600; }
+
+/* ===== 终极竞速 ===== */
+.game-grandprix {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 24px;
+    position: relative;
+    z-index: 1;
+}
+
+.grandprix-intro { text-align: center; }
+.grandprix-rules {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border: 2px solid var(--border-color);
+}
+.rule-item {
+    padding: 10px 16px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 10px;
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.grandprix-dashboard {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+.speedometer {
+    flex: 1;
+    text-align: center;
+}
+.speed-label { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
+.timer-display {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--accent-cyan);
+    line-height: 1.2;
+    text-shadow: 0 0 20px rgba(0,210,255,0.4);
+}
+.timer-display.timer-warning {
+    color: var(--accent-red);
+    animation: timer-blink 0.5s infinite;
+    text-shadow: 0 0 20px rgba(244,67,54,0.6);
+}
+.speed-bar {
+    height: 10px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 6px;
+}
+.speed-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-red), var(--accent-orange), var(--accent-gold), var(--accent-cyan));
+    background-size: 300% 100%;
+    border-radius: 5px;
+    transition: width 1s linear;
+    animation: progress-shimmer 2s infinite;
+}
+.grandprix-status {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 1rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.grandprix-question { text-align: center; }
+.grandprix-emoji { font-size: 5.5rem; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4)); }
+.grandprix-zh { font-size: 2.5rem; font-weight: 800; color: var(--accent-gold); text-shadow: 0 0 20px rgba(255,215,0,0.3); }
+.btn-listen-big {
+    padding: 20px 40px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent-cyan), #0088cc);
+    border: none;
+    border-radius: 50px;
+    box-shadow: 0 0 30px rgba(0,210,255,0.4);
+    animation: speaker-pulse 2s infinite;
+}
+
+.finish-stats-grandprix {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 24px 0;
+    flex-wrap: wrap;
+}
+.stat-card {
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 18px 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 120px;
+    transition: var(--transition);
+}
+.stat-card:hover {
+    border-color: var(--accent-gold);
+    box-shadow: 0 4px 20px rgba(255,215,0,0.15);
+}
+
+/* ===== 荣誉车库 ===== */
+.honor-garage {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 24px;
+    position: relative;
+    z-index: 1;
+}
+
+.honor-section {
+    margin-bottom: 36px;
+}
+.honor-section h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid rgba(255,215,0,0.3);
+    background: linear-gradient(135deg, var(--accent-orange), var(--accent-gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.current-car-display {
+    background: var(--bg-card);
+    border: 3px solid var(--accent-gold);
+    border-radius: var(--radius);
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(255,215,0,0.15);
+}
+.current-car-emoji { font-size: 6rem; filter: drop-shadow(0 8px 20px rgba(0,0,0,0.4)); }
+.current-car-name { font-size: 1.8rem; font-weight: 800; margin-top: 12px; }
+.current-car-level {
+    display: inline-block;
+    background: var(--accent-gold);
+    color: #000;
+    padding: 4px 18px;
+    border-radius: 20px;
+    font-weight: 800;
+    margin: 8px 0;
+    font-size: 0.95rem;
+}
+.current-car-desc { color: var(--text-secondary); margin: 10px 0; font-size: 1rem; }
+.current-car-features { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 14px; }
+.feature-tag {
+    background: rgba(255,255,255,0.06);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    border: 1px solid var(--border-color);
+}
+
+.car-collection {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 14px;
+}
+.car-card {
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 18px 14px;
+    text-align: center;
+    opacity: 0.4;
+    transition: var(--transition);
+}
+.car-card.unlocked {
+    opacity: 1;
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 15px rgba(255,215,0,0.1);
+}
+.car-card-emoji { font-size: 3rem; }
+.car-card-name { font-weight: 700; font-size: 0.95rem; margin: 6px 0; }
+.car-card-level { font-size: 0.8rem; color: var(--text-muted); }
+.car-card-status { font-size: 0.8rem; margin-top: 6px; font-weight: 600; }
+.car-card.unlocked .car-card-status { color: var(--accent-green); }
+.car-card-features { font-size: 0.7rem; color: var(--text-muted); margin-top: 8px; }
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+.stat-card-honor {
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 18px 14px;
+    text-align: center;
+    transition: var(--transition);
+}
+.stat-card-honor:hover {
+    border-color: var(--accent-cyan);
+    box-shadow: 0 4px 15px rgba(0,210,255,0.15);
+}
+.stat-val-h { font-size: 1.3rem; font-weight: 800; color: var(--accent-gold); }
+.stat-lbl-h { font-size: 0.8rem; color: var(--text-muted); display: block; margin-top: 4px; }
+
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+}
+.achievement-card {
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 18px 12px;
+    text-align: center;
+    opacity: 0.35;
+    transition: var(--transition);
+}
+.achievement-card.earned {
+    opacity: 1;
+    border-color: var(--accent-gold);
+    background: rgba(255, 215, 0, 0.06);
+    box-shadow: 0 0 15px rgba(255,215,0,0.1);
+}
+.achievement-emoji { font-size: 2.5rem; margin-bottom: 6px; }
+.achievement-name { font-weight: 700; font-size: 0.9rem; }
+.achievement-desc { font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; }
+
+.empty-state {
+    text-align: center;
+    padding: 50px;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+}
+
+/* ===== 弹窗 ===== */
+.upgrade-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+.upgrade-popup {
+    background: linear-gradient(135deg, #1a1f4e, #252b6b);
+    border: 3px solid var(--accent-gold);
+    border-radius: var(--radius);
+    padding: 36px;
+    text-align: center;
+    max-width: 420px;
+    width: 90%;
+    box-shadow: 0 0 50px rgba(255, 215, 0, 0.4);
+}
+
+.upgrade-emoji { font-size: 6rem; margin-bottom: 14px; animation: car-bounce 1s infinite; }
+.upgrade-name { font-size: 1.8rem; font-weight: 800; color: var(--accent-gold); margin: 10px 0; }
+.upgrade-desc { color: var(--text-secondary); font-size: 1rem; margin-bottom: 16px; }
+.upgrade-features { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+
+/* 成就toast */
+.achievement-toast {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    background: linear-gradient(135deg, #1a1f4e, #252b6b);
+    border: 3px solid var(--accent-gold);
+    border-radius: var(--radius-sm);
+    padding: 16px 22px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    z-index: 1100;
+    animation: slideInRight 0.4s ease, fadeOut 0.5s ease 2.5s forwards;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+    font-size: 1rem;
+}
+.ach-icon { font-size: 2.5rem; }
+
+/* ===== 动画 ===== */
+@keyframes car-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+}
+
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 30px rgba(255, 107, 53, 0.6); }
+    50% { box-shadow: 0 0 55px rgba(255, 107, 53, 0.9), 0 0 80px rgba(255, 215, 0, 0.3); }
+}
+
+@keyframes starBurst {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(0);
+    }
+    50% {
+        opacity: 1;
+        transform: translate(
+            calc(var(--dx, 0) * 1px),
+            calc(var(--dy, 0) * 1px)
+        ) scale(1.5);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(
+            calc(var(--dx, 0) * 2px),
+            calc(var(--dy, 0) * 2px)
+        ) scale(0.5);
+    }
+}
+
+@keyframes star-pop {
+    0% { transform: scale(0) rotate(-30deg); }
+    50% { transform: scale(1.4) rotate(10deg); }
+    100% { transform: scale(1) rotate(0deg); }
+}
+
+@keyframes timer-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(120%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.1); }
+    70% { transform: scale(0.9); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-bounceIn {
+    animation: bounceIn 0.6s ease;
+}
+
+/* 新增加载动画 */
+@keyframes float-up-down {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+/* ===== 全面响应式设计 ===== */
+
+/* ---- 平板横屏 (< 1200px) ---- */
+@media (max-width: 1200px) {
+    .home-screen { max-width: 100%; padding: 20px; }
+    .honor-garage { max-width: 100%; padding: 20px; }
+    .stats-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ---- 平板竖屏 (< 900px) ---- */
+@media (max-width: 900px) {
+    html { font-size: 17px; }
+    .home-screen { padding: 16px; }
+    .entries-grid { grid-template-columns: repeat(2, 1fr); }
+    .stats-panel { grid-template-columns: repeat(2, 1fr); }
+    .terrain-grid { grid-template-columns: repeat(2, 1fr); }
+    .category-selector { grid-template-columns: repeat(2, 1fr); }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .car-collection { grid-template-columns: repeat(3, 1fr); }
+    .achievements-grid { grid-template-columns: repeat(3, 1fr); }
+
+    .banner-car { font-size: 5rem; }
+    .banner-title { font-size: 2rem; }
+    .entry-icon { font-size: 3rem; }
+    .entry-card { padding: 22px 14px; }
+    .flashcard { width: 320px; height: 240px; }
+    .flashcard-word { font-size: 2.4rem; }
+    .flashcard-emoji { font-size: 4.5rem; }
+    .race-emoji-big, .workshop-emoji, .grandprix-emoji { font-size: 4.5rem; }
+    .grandprix-dashboard { flex-wrap: wrap; }
+    .finish-stats-grandprix { gap: 12px; }
+    .workshop-keyboard { grid-template-columns: repeat(6, 1fr); max-width: 420px; }
+    .race-options, .grandprix-options { max-width: 100%; }
+}
+
+/* ---- 大屏手机横屏 / 小平板 (< 768px) ---- */
+@media (max-width: 768px) {
+    html { font-size: 16px; }
+    .home-screen { padding: 14px; }
+    .game-garage, .game-racing, .game-matching, .game-workshop, .game-grandprix, .honor-garage {
+        padding: 16px;
+    }
+
+    .banner-car { font-size: 4.5rem; }
+    .banner-title { font-size: 1.8rem; }
+    .banner-subtitle { font-size: 1rem; }
+    .banner-car-info { font-size: 0.95rem; padding: 8px 18px; }
+
+    .entries-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .entry-card { padding: 20px 12px; }
+    .entry-icon { font-size: 2.8rem; }
+    .entry-name { font-size: 1rem; }
+
+    .stats-panel { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .stats-panel .stat-item { padding: 14px 6px; }
+    .stat-val { font-size: 1.3rem; }
+
+    .terrain-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .terrain-card { padding: 18px 12px; }
+    .terrain-emoji { font-size: 3rem; }
+
+    .category-selector { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .category-icon { font-size: 2.4rem; }
+
+    .flashcard { width: 280px; height: 200px; }
+    .flashcard-word { font-size: 2rem; }
+    .flashcard-zh { font-size: 2rem; }
+    .flashcard-emoji { font-size: 4rem; }
+    .flashcard-en-small { font-size: 1.2rem; }
+
+    .matching-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 420px; }
+    .matching-card-back, .matching-card-front { font-size: 2rem; }
+    .matching-card-front { font-size: 0.95rem; }
+    .matching-categories, .workshop-categories { grid-template-columns: repeat(2, 1fr); }
+    .matching-stats { gap: 12px; font-size: 0.85rem; }
+
+    .workshop-emoji { font-size: 4.5rem; }
+    .workshop-hint { font-size: 1.1rem; }
+    .letter-slot { width: 48px; height: 58px; font-size: 1.5rem; }
+    .workshop-keyboard { grid-template-columns: repeat(7, 1fr); gap: 6px; max-width: 100%; }
+    .keyboard-key { font-size: 1rem; }
+
+    .race-options, .grandprix-options { grid-template-columns: 1fr 1fr; gap: 10px; max-width: 100%; }
+    .race-option, .grandprix-option { padding: 14px 16px; font-size: 1.05rem; }
+    .race-emoji-big, .grandprix-emoji { font-size: 4rem; }
+    .grandprix-zh { font-size: 2rem; }
+    .race-car { font-size: 1.6rem; top: -18px; }
+    .race-track { height: 14px; }
+    .race-stats { font-size: 0.85rem; }
+
+    .grandprix-dashboard { gap: 12px; }
+    .timer-display { font-size: 2.8rem; }
+    .btn-start-race { padding: 18px 36px; font-size: 1.3rem; }
+    .btn-listen, .btn-listen-big { padding: 14px 28px; font-size: 1.1rem; }
+
+    .finish-flag, .finish-emoji { font-size: 4rem; }
+    .score-circle { width: 120px; height: 120px; }
+    .score-value { font-size: 2.2rem; }
+    .finish-stars { font-size: 2rem; }
+
+    .car-collection { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .achievements-grid { grid-template-columns: repeat(3, 1fr); }
+
+    .current-car-emoji { font-size: 5rem; }
+    .current-car-name { font-size: 1.5rem; }
+    .honor-section h2 { font-size: 1.3rem; }
+
+    .back-nav { padding: 10px 14px; gap: 10px; }
+    .back-title { font-size: 0.9rem; }
+
+    .btn { padding: 10px 20px; font-size: 0.95rem; }
+    .btn-primary { padding: 12px 24px; }
+    .btn-learned { padding: 14px; font-size: 1.15rem; }
+
+    .upgrade-popup { padding: 28px; max-width: 360px; }
+    .upgrade-emoji { font-size: 5rem; }
+    .upgrade-name { font-size: 1.5rem; }
+}
+
+/* ---- 手机竖屏 (< 480px) ---- */
+@media (max-width: 480px) {
+    html { font-size: 15px; }
+    .home-screen { padding: 10px; }
+    .game-garage, .game-racing, .game-matching, .game-workshop, .game-grandprix, .honor-garage {
+        padding: 10px;
+    }
+
+    .banner-car { font-size: 3.5rem; }
+    .banner-title { font-size: 1.5rem; }
+    .banner-subtitle { font-size: 0.9rem; }
+    .home-banner { padding: 24px 14px 18px; }
+
+    .entries-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .entry-card { padding: 16px 10px; }
+    .entry-icon { font-size: 2.4rem; }
+    .entry-name { font-size: 0.9rem; }
+    .entry-desc { font-size: 0.7rem; }
+
+    .stats-panel { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .stats-panel .stat-item { padding: 12px 4px; }
+    .stat-icon { font-size: 1.4rem; }
+    .stat-val { font-size: 1.15rem; }
+    .stat-lbl { font-size: 0.7rem; }
+
+    .evolution-node { flex: 0 0 70px; }
+    .evolution-emoji { font-size: 2rem; }
+    .evolution-title { font-size: 1rem; }
+
+    .terrain-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .terrain-card { padding: 14px 10px; }
+    .terrain-emoji { font-size: 2.5rem; }
+    .terrain-name { font-size: 0.95rem; }
+    .terrain-action { font-size: 0.85rem; padding: 6px 16px; }
+
+    .category-selector { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .category-card { padding: 12px 8px; }
+    .category-icon { font-size: 2rem; }
+
+    .flashcard { width: 240px; height: 170px; }
+    .flashcard-word { font-size: 1.7rem; }
+    .flashcard-zh { font-size: 1.7rem; }
+    .flashcard-emoji { font-size: 3rem; }
+    .flashcard-en-small { font-size: 1rem; }
+    .flashcard-hint { font-size: 0.7rem; }
+    .flashcard-info { gap: 14px; font-size: 0.8rem; }
+
+    .matching-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 100%; }
+    .matching-card-back, .matching-card-front { font-size: 1.5rem; }
+    .matching-card-front { font-size: 0.8rem; }
+    .matching-cat-card, .workshop-cat-card { padding: 14px 8px; }
+    .matching-cat-emoji, .workshop-cat-emoji { font-size: 2rem; }
+    .matching-header h2, .workshop-header h2, .racing-header h2, .grandprix-header h2 { font-size: 1.5rem; }
+
+    .workshop-emoji { font-size: 3.5rem; }
+    .workshop-hint { font-size: 1rem; }
+    .letter-slot { width: 42px; height: 52px; font-size: 1.3rem; }
+    .workshop-keyboard { grid-template-columns: repeat(6, 1fr); gap: 5px; max-width: 100%; }
+    .keyboard-key { font-size: 0.9rem; }
+    .workshop-actions { gap: 8px; }
+    .btn-delete, .btn-submit, .btn-listen-small { padding: 10px 16px; font-size: 0.95rem; }
+
+    .race-options, .grandprix-options { grid-template-columns: 1fr; gap: 8px; max-width: 100%; }
+    .race-option, .grandprix-option { padding: 12px 14px; font-size: 1rem; }
+    .option-letter, .option-mark { width: 28px; height: 28px; font-size: 0.8rem; }
+    .race-emoji-big, .grandprix-emoji { font-size: 3.5rem; }
+    .grandprix-zh { font-size: 1.6rem; }
+    .race-prompt, .grandprix-prompt { min-height: 60px; margin-bottom: 14px; }
+
+    .grandprix-dashboard { flex-direction: column; align-items: stretch; }
+    .timer-display { font-size: 2.5rem; }
+    .grandprix-status { flex-direction: row; justify-content: space-between; }
+    .btn-start-race { padding: 14px 28px; font-size: 1.15rem; }
+    .btn-listen, .btn-listen-big { padding: 12px 22px; font-size: 1rem; }
+
+    .finish-flag, .finish-emoji { font-size: 3.5rem; }
+    .score-circle { width: 100px; height: 100px; }
+    .score-value { font-size: 1.8rem; }
+    .finish-stars { font-size: 1.8rem; }
+    .finish-actions { gap: 10px; }
+    .finish-stats-grandprix { flex-direction: column; align-items: center; }
+    .stat-card { min-width: 90px; padding: 12px 14px; }
+
+    .car-collection { grid-template-columns: repeat(2, 1fr); }
+    .car-card { padding: 12px 8px; }
+    .car-card-emoji { font-size: 2.5rem; }
+    .car-card-name { font-size: 0.8rem; }
+
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .stat-card-honor { padding: 12px 8px; }
+    .stat-val-h { font-size: 1rem; }
+    .stat-lbl-h { font-size: 0.7rem; }
+
+    .achievements-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .achievement-card { padding: 12px 8px; }
+    .achievement-emoji { font-size: 2rem; }
+
+    .current-car-emoji { font-size: 4rem; }
+    .current-car-name { font-size: 1.3rem; }
+    .current-car-display { padding: 20px; }
+    .honor-section h2 { font-size: 1.15rem; }
+    .honor-section { margin-bottom: 24px; }
+
+    .back-nav { padding: 8px 10px; gap: 8px; }
+    .btn-back { font-size: 0.85rem; padding: 6px 12px; }
+    .back-title { font-size: 0.8rem; }
+
+    .btn { padding: 8px 16px; font-size: 0.85rem; }
+    .btn-primary { padding: 10px 20px; font-size: 0.95rem; }
+    .btn-circle { width: 44px; height: 44px; font-size: 1.2rem; }
+    .btn-speaker { width: 50px; height: 50px; font-size: 1.4rem; }
+    .btn-learned { padding: 12px; font-size: 1rem; }
+
+    .flashcard-controls { gap: 12px; }
+
+    .upgrade-popup { padding: 22px; max-width: 320px; }
+    .upgrade-emoji { font-size: 4rem; }
+    .upgrade-name { font-size: 1.3rem; }
+    .upgrade-desc { font-size: 0.9rem; }
+
+    .achievement-toast {
+        top: 10px; right: 10px; left: 10px;
+        padding: 12px 14px; font-size: 0.85rem;
+    }
+    .ach-icon { font-size: 2rem; }
+
+    .race-track { height: 12px; }
+    .race-car { font-size: 1.3rem; top: -16px; }
+}
+
+/* ---- 小屏手机 (< 380px) ---- */
+@media (max-width: 380px) {
+    html { font-size: 14px; }
+
+    .entries-grid { grid-template-columns: 1fr; gap: 8px; }
+    .terrain-grid { grid-template-columns: 1fr; gap: 8px; }
+    .category-selector { grid-template-columns: 1fr; gap: 8px; }
+
+    .flashcard { width: 210px; height: 150px; }
+    .flashcard-word { font-size: 1.5rem; }
+    .flashcard-zh { font-size: 1.5rem; }
+    .flashcard-emoji { font-size: 2.5rem; }
+
+    .matching-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+
+    .workshop-keyboard { grid-template-columns: repeat(5, 1fr); gap: 4px; }
+    .letter-slot { width: 36px; height: 46px; font-size: 1.1rem; }
+
+    .race-emoji-big, .grandprix-emoji, .workshop-emoji { font-size: 3rem; }
+    .timer-display { font-size: 2rem; }
+
+    .banner-car { font-size: 3rem; }
+    .banner-title { font-size: 1.3rem; }
+
+    .stats-panel { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+    .achievements-grid { grid-template-columns: repeat(2, 1fr); }
+    .car-collection { grid-template-columns: repeat(2, 1fr); }
+}

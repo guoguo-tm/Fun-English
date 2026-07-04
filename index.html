@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏎️ 儿童英语趣味乐园 - 赛车闯关学英语</title>
+    <meta name="description" content="一款适合7-12岁儿童的英语学习游戏，通过赛车冒险学习100+小学常用单词">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏎️</text></svg>">
+</head>
+<body>
+    <div id="gameContainer">
+        <!-- 启动加载画面 -->
+        <div class="loading-screen" id="loadingScreen" style="
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        ">
+            <div style="font-size: 5rem; animation: car-bounce 1s infinite;">🏎️</div>
+            <h1 style="font-size: 2rem; margin: 20px 0 10px; background: linear-gradient(135deg, #FF6B35, #FFD700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                儿童英语趣味乐园
+            </h1>
+            <p style="color: #b0b8d8; margin-bottom: 20px;">引擎轰鸣中...请稍候 🏁</p>
+            <div style="width: 100px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;">
+                <div style="width: 0%; height: 100%; background: linear-gradient(90deg, #00D2FF, #FF6B35); border-radius: 2px; animation: loading-bar 1.5s ease forwards;"></div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        @keyframes loading-bar {
+            0% { width: 0%; }
+            50% { width: 70%; }
+            100% { width: 100%; }
+        }
+        @keyframes car-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+
+    <!-- 加载JS模块 -->
+    <script src="js/data.js"></script>
+    <script src="js/garage-data.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/achievements.js"></script>
+    <script src="js/game-garage.js"></script>
+    <script src="js/game-racing.js"></script>
+    <script src="js/game-matching.js"></script>
+    <script src="js/game-workshop.js"></script>
+    <script src="js/game-grandprix.js"></script>
+    <script src="js/app.js"></script>
+
+    <script>
+        // 启动应用后隐藏加载画面
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                var loading = document.getElementById('loadingScreen');
+                if (loading) {
+                    loading.style.opacity = '0';
+                    loading.style.transition = 'opacity 0.3s ease';
+                    setTimeout(function() { loading.remove(); }, 300);
+                }
+            }, 800);
+        });
+    </script>
+</body>
+</html>
