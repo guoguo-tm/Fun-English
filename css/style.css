@@ -1058,6 +1058,7 @@ body::before {
 .matching-card-back {
     background: linear-gradient(135deg, #1a1f4e, #2a2f5e);
     transition: border-color 0.3s;
+    font-size: 3.5rem;
 }
 .matching-card:hover .matching-card-back {
     border-color: var(--accent-cyan);
@@ -1067,12 +1068,16 @@ body::before {
 .matching-card-front {
     background: linear-gradient(135deg, var(--accent-cyan), #0088cc);
     transform: rotateY(180deg);
-    font-size: 1.1rem;
-    font-weight: 700;
+    font-weight: 800;
     word-break: break-all;
-    padding: 8px;
+    padding: 6px;
     text-align: center;
     color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(0.9rem, 4vw, 1.8rem);
+    line-height: 1.1;
 }
 
 .matching-card.matched .matching-card-front {
