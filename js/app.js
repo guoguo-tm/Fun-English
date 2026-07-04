@@ -12,10 +12,14 @@ class App {
     init() {
         this.gameContainer = document.getElementById('gameContainer');
         
-        // 初始化音效（用户首次交互时）
-        document.addEventListener('click', () => {
+        // 初始化音效（用户首次交互时，同时支持桌面端点击和移动端触摸）
+        const initAudio = () => {
             audio.init();
-        }, { once: true });
+            document.removeEventListener('click', initAudio);
+            document.removeEventListener('touchstart', initAudio);
+        };
+        document.addEventListener('click', initAudio, { once: true });
+        document.addEventListener('touchstart', initAudio, { once: true });
         
         // 更新连续学习天数
         storage.updateStreak();

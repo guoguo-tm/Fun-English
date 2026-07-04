@@ -1,12 +1,16 @@
 // ========================================
 // 儿童英语趣味乐园 - 音效引擎
 // 使用 Web Audio API 程序化生成音效
+// 移动端语音播报兼容（iOS/Android）
 // ========================================
 
 class AudioEngine {
     constructor() {
         this.ctx = null;
         this.initialized = false;
+        this.voicesCache = [];
+        this.voicesLoaded = false;
+        this.speechUnlocked = false;
     }
 
     // 初始化音频上下文（需要在用户交互后调用）
@@ -19,6 +23,40 @@ class AudioEngine {
         } catch (e) {
             console.warn('⚠️ 音频初始化失败:', e);
         }
+        // 同时预热 SpeechSynthesis：加载 voices 并解锁 iOS
+        this._warmUpSpeech();
+    }
+
+    // 预热 SpeechSynthesis（关键：解锁 iOS 移动端语音播报）
+    _warmUpSpeech() {
+        if (!window.speechSynthesis) {
+            console.warn('⚠️ 浏览器不支持语音合成');
+            return;
+        }
+        // 加载 voices（移动端可能异步返回，用 onvoiceschanged 兜底）
+        const loadVoices = () => {
+            this.voicesCache = window.speechSynthesis.getVoices();
+            if (this.voicesCache.length > 0) {
+                this.voicesLoaded = true;
+                console.log('🗣️ 语音列表已加载:', this.voicesCache.length, '个语音');
+            }
+        };
+        loadVoices();
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+
+        // iOS 关键修复：在用户手势同步回调中调用一次 speak() 来解锁
+        // iOS Safari 要求首次 SpeechSynthesis.speak() 必须发生在用户交互的同步上下文中
+        // 否则后续 setTimeout/fetch 回调中的 speak() 都会被静默阻止
+        try {
+            const dummyUtterance = new SpeechSynthesisUtterance(' ');
+            dummyUtterance.volume = 0;
+            dummyUtterance.rate = 1.5;
+            window.speechSynthesis.speak(dummyUtterance);
+            this.speechUnlocked = true;
+            console.log('🔓 iOS 语音播报已解锁');
+        } catch (e) {
+            console.warn('⚠️ 语音解锁失败:', e);
+        }
     }
 
     // 确保已初始化
@@ -27,6 +65,28 @@ class AudioEngine {
         if (this.ctx && this.ctx.state === 'suspended') {
             this.ctx.resume();
         }
+    }
+
+    // 确保 voices 已加载（移动端异步加载场景兜底）
+    _ensureVoices() {
+        if (!this.voicesLoaded || this.voicesCache.length === 0) {
+            this.voicesCache = window.speechSynthesis.getVoices();
+            if (this.voicesCache.length > 0) {
+                this.voicesLoaded = true;
+            }
+        }
+        return this.voicesCache;
+    }
+
+    // 恢复被暂停的 SpeechSynthesis（iOS 长时间不活动会自动暂停）
+    _resumeSpeech() {
+        if (!window.speechSynthesis) return;
+        try {
+            // 通过发送一个无声的短 utterance 来恢复语音上下文
+            if (window.speechSynthesis.paused) {
+                window.speechSynthesis.resume();
+            }
+        } catch (e) { /* 忽略 */ }
     }
 
     // ===== 基础音效生成函数 =====
@@ -82,36 +142,55 @@ class AudioEngine {
         this.playTone(1318, 0.3, 'sine', 0.15, 0.4); // E6
     }
 
-    // 答对中文语音 —— "沈亦舟你真酷！"
+    // 答对中文语音 —— "图图你真酷！"
     speakCorrect() {
-        if (!window.speechSynthesis) return;
-        window.speechSynthesis.cancel();
-        setTimeout(() => {
-            const utterance = new SpeechSynthesisUtterance('图图你真酷！');
-            utterance.lang = 'zh-CN';
-            utterance.rate = 0.9;
-            utterance.pitch = 1.1;
-            const voices = window.speechSynthesis.getVoices();
-            const zhVoice = voices.find(v => v.lang.startsWith('zh'));
-            if (zhVoice) utterance.voice = zhVoice;
-            window.speechSynthesis.speak(utterance);
-        }, 500);
+        this._speakZh('图图你真酷！', 0.9, 1.1, 500);
     }
 
-    // 答错中文语音 —— "嘎嘎嘎、、、"
+    // 答错中文语音 —— "嘎嘎嘎"
     speakWrong() {
-        if (!window.speechSynthesis) return;
-        window.speechSynthesis.cancel();
-        setTimeout(() => {
-            const utterance = new SpeechSynthesisUtterance('嘎嘎嘎');
-            utterance.lang = 'zh-CN';
-            utterance.rate = 0.8;
-            utterance.pitch = 0.8;
-            const voices = window.speechSynthesis.getVoices();
-            const zhVoice = voices.find(v => v.lang.startsWith('zh'));
-            if (zhVoice) utterance.voice = zhVoice;
-            window.speechSynthesis.speak(utterance);
-        }, 300);
+        this._speakZh('嘎嘎嘎', 0.8, 0.8, 300);
+    }
+
+    // 中文语音播报核心方法（iOS/Android 兼容）
+    _speakZh(text, rate = 0.9, pitch = 1.0, delay = 0) {
+        if (!window.speechSynthesis) {
+            console.warn('⚠️ 浏览器不支持语音合成');
+            return;
+        }
+
+        const doSpeak = () => {
+            try {
+                this._resumeSpeech();
+                window.speechSynthesis.cancel();
+
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'zh-CN';
+                utterance.rate = rate;
+                utterance.pitch = pitch;
+                utterance.volume = 1;
+
+                const voices = this._ensureVoices();
+                const zhVoice = voices.find(v => v.lang.startsWith('zh'));
+                if (zhVoice) utterance.voice = zhVoice;
+
+                utterance.onerror = (e) => {
+                    if (e.error !== 'canceled' && e.error !== 'interrupted') {
+                        console.warn('⚠️ 中文语音播报失败:', e.error);
+                    }
+                };
+
+                window.speechSynthesis.speak(utterance);
+            } catch (e) {
+                console.warn('⚠️ 中文语音播报异常:', e);
+            }
+        };
+
+        if (delay > 0) {
+            setTimeout(doSpeak, delay);
+        } else {
+            doSpeak();
+        }
     }
 
     // 答错音效 —— 低沉的两声
@@ -222,7 +301,6 @@ class AudioEngine {
     }
 
     // ===== 语音朗读（TTS） =====
-    // 存储当前单词的中文，用于英文朗读后跟读中文
     _pendingZh = null;
 
     speakWord(word, rate = 0.9, chinese = null) {
@@ -230,57 +308,66 @@ class AudioEngine {
             console.warn('⚠️ 浏览器不支持语音合成');
             return;
         }
-        window.speechSynthesis.cancel(); // 取消当前朗读
 
-        // 存储中文，在 onend 回调中朗读
-        if (chinese) {
-            this._pendingZh = chinese;
-        } else {
-            this._pendingZh = null;
-        }
+        this._pendingZh = chinese || null;
+
+        // 恢复可能暂停的语音合成 + 取消当前朗读
+        try {
+            this._resumeSpeech();
+            window.speechSynthesis.cancel();
+        } catch (e) { /* 忽略取消错误 */ }
 
         const utterance = new SpeechSynthesisUtterance(word);
         utterance.lang = 'en-US';
         utterance.rate = rate;
         utterance.pitch = 1.1;
-        
-        // 尝试选择英语语音
-        const voices = window.speechSynthesis.getVoices();
+        utterance.volume = 1;
+
+        // 使用缓存的 voices
+        const voices = this._ensureVoices();
         const enVoice = voices.find(v => v.lang.startsWith('en'));
         if (enVoice) utterance.voice = enVoice;
 
+        utterance.onerror = (e) => {
+            if (e.error !== 'canceled' && e.error !== 'interrupted') {
+                console.warn('⚠️ 英文语音播报失败 (' + word + '):', e.error);
+            }
+        };
+
         // 英文读完后自动读中文
         const self = this;
-        utterance.onend = function() {
+        utterance.onend = function () {
             if (self._pendingZh) {
                 const zh = self._pendingZh;
                 self._pendingZh = null;
                 setTimeout(() => {
-                    const zhUtterance = new SpeechSynthesisUtterance(zh);
-                    zhUtterance.lang = 'zh-CN';
-                    zhUtterance.rate = 0.85;
-                    zhUtterance.pitch = 1.0;
-                    const zhVoices = window.speechSynthesis.getVoices();
-                    const zhVoice = zhVoices.find(v => v.lang.startsWith('zh'));
-                    if (zhVoice) zhUtterance.voice = zhVoice;
-                    window.speechSynthesis.speak(zhUtterance);
+                    try {
+                        const zhUtterance = new SpeechSynthesisUtterance(zh);
+                        zhUtterance.lang = 'zh-CN';
+                        zhUtterance.rate = 0.85;
+                        zhUtterance.pitch = 1.0;
+                        zhUtterance.volume = 1;
+                        const zhVoices = self._ensureVoices();
+                        const zhVoice = zhVoices.find(v => v.lang.startsWith('zh'));
+                        if (zhVoice) zhUtterance.voice = zhVoice;
+                        zhUtterance.onerror = (e2) => {
+                            if (e2.error !== 'canceled' && e2.error !== 'interrupted') {
+                                console.warn('⚠️ 中文跟读失败 (' + zh + '):', e2.error);
+                            }
+                        };
+                        window.speechSynthesis.speak(zhUtterance);
+                    } catch (e) {
+                        console.warn('⚠️ 中文跟读异常:', e);
+                    }
                 }, 200);
             }
         };
-        
+
         window.speechSynthesis.speak(utterance);
     }
 }
 
 // 创建全局音效引擎实例
 const audio = new AudioEngine();
-
-// 预加载语音列表
-if (window.speechSynthesis) {
-    window.speechSynthesis.getVoices();
-    window.speechSynthesis.onvoiceschanged = () => {
-        window.speechSynthesis.getVoices();
-    };
-}
 
 console.log('🔊 音效引擎模块已加载！');
