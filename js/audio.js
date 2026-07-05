@@ -159,6 +159,9 @@ class AudioEngine {
             return;
         }
 
+        // 确保音频已初始化
+        this.ensureInit();
+
         const doSpeak = () => {
             try {
                 this._resumeSpeech();
@@ -172,13 +175,34 @@ class AudioEngine {
 
                 const voices = this._ensureVoices();
                 const zhVoice = voices.find(v => v.lang.startsWith('zh'));
-                if (zhVoice) utterance.voice = zhVoice;
+                if (zhVoice) {
+                    utterance.voice = zhVoice;
+                    console.log('🔊 使用中文语音:', zhVoice.name, zhVoice.lang);
+                } else {
+                    console.warn('⚠️ 未找到中文语音，使用默认语音');
+                }
 
                 utterance.onerror = (e) => {
                     if (e.error !== 'canceled' && e.error !== 'interrupted') {
                         console.warn('⚠️ 中文语音播报失败:', e.error);
                     }
                 };
+
+                utterance.onstart = () => {
+                    console.log('🔊 开始播报中文:', text);
+                };
+
+                // 再次确保语音合成已解锁（针对 iOS）
+                if (!this.speechUnlocked) {
+                    try {
+                        const dummy = new SpeechSynthesisUtterance('');
+                        dummy.volume = 0;
+                        window.speechSynthesis.speak(dummy);
+                        this.speechUnlocked = true;
+                    } catch (e) {
+                        console.warn('⚠️ 语音解锁失败:', e);
+                    }
+                }
 
                 window.speechSynthesis.speak(utterance);
             } catch (e) {
@@ -306,8 +330,12 @@ class AudioEngine {
     speakWord(word, rate = 0.9, chinese = null) {
         if (!window.speechSynthesis) {
             console.warn('⚠️ 浏览器不支持语音合成');
+            alert('您的浏览器不支持语音播报功能，请使用 Chrome 或 Safari 浏览器。');
             return;
         }
+
+        // 确保音频已初始化
+        this.ensureInit();
 
         this._pendingZh = chinese || null;
 
@@ -323,25 +351,43 @@ class AudioEngine {
         utterance.pitch = 1.1;
         utterance.volume = 1;
 
-        // 使用缓存的 voices
+        // 使用缓存的 voices，增强语音选择逻辑
         const voices = this._ensureVoices();
-        const enVoice = voices.find(v => v.lang.startsWith('en'));
-        if (enVoice) utterance.voice = enVoice;
+        console.log('🔊 可用语音数量:', voices.length);
+        
+        // 优先选择美式英语，其次选择任何英语语音
+        let enVoice = voices.find(v => v.lang === 'en-US');
+        if (!enVoice) {
+            enVoice = voices.find(v => v.lang.startsWith('en'));
+        }
+        if (enVoice) {
+            utterance.voice = enVoice;
+            console.log('🔊 使用语音:', enVoice.name, enVoice.lang);
+        } else {
+            console.warn('⚠️ 未找到英语语音，使用默认语音');
+        }
 
         utterance.onerror = (e) => {
             if (e.error !== 'canceled' && e.error !== 'interrupted') {
                 console.warn('⚠️ 英文语音播报失败 (' + word + '):', e.error);
+                alert('语音播报失败: ' + e.error);
             }
+        };
+
+        utterance.onstart = () => {
+            console.log('🔊 开始播报:', word);
         };
 
         // 英文读完后自动读中文
         const self = this;
         utterance.onend = function () {
+            console.log('🔊 播报完成:', word);
             if (self._pendingZh) {
                 const zh = self._pendingZh;
                 self._pendingZh = null;
                 setTimeout(() => {
                     try {
+                        self._resumeSpeech();
                         const zhUtterance = new SpeechSynthesisUtterance(zh);
                         zhUtterance.lang = 'zh-CN';
                         zhUtterance.rate = 0.85;
@@ -362,6 +408,18 @@ class AudioEngine {
                 }, 200);
             }
         };
+
+        // 再次确保语音合成已解锁（针对 iOS）
+        if (!this.speechUnlocked) {
+            try {
+                const dummy = new SpeechSynthesisUtterance('');
+                dummy.volume = 0;
+                window.speechSynthesis.speak(dummy);
+                this.speechUnlocked = true;
+            } catch (e) {
+                console.warn('⚠️ 语音解锁失败:', e);
+            }
+        }
 
         window.speechSynthesis.speak(utterance);
     }
